@@ -14,3 +14,5 @@ Apri 9, 2025 - Setup new project v3
 2. Install React-Bootstrap: https://react-bootstrap.netlify.app/docs/getting-started/introduction
    ✅ npm install react-bootstrap bootstrap
 3. Set up Git & Github
+
+4. Can display & add sample todo data.

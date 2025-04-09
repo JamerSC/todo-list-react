@@ -1,36 +1,27 @@
 import Table from "react-bootstrap/Table";
 
-const TodoTable = () => {
+const TodoTable = ({ todoItems }) => {
+  const todos = todoItems;
   return (
     <div className="mt-3">
       <Table striped hover>
         <thead>
           <tr>
-            <th>#</th>
+            {/* <th>#</th> */}
             <th>Title</th>
             <th>Description</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Task 1</td>
-            <td>Cleaning the Room</td>
-            <td>Completed</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Task 2</td>
-            <td>Planting Vegetable</td>
-            <td>Pending</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Cook Meal</td>
-            <td>Our family dinner</td>
-            <td>Completed</td>
-          </tr>
+          {todos.map((todo) => (
+            <tr key={todo.id}>
+              {/* <td>{todo.id}</td> */}
+              <td>{todo.title}</td>
+              <td>{todo.description}</td>
+              <td>{todo.status}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>

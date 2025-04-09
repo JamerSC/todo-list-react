@@ -3,3 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* styles.css */
+.col-title {
+  width: 20%;
+}
+.col-description {
+  width: 50%;
+}
+.col-status {
+  width: 30%;
+}
