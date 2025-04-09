@@ -7,10 +7,12 @@ const TodoNav = () => {
     <>
       <Navbar bg="light" className="mb-3">
         <Container>
-          <Navbar.Brand href="#home">Todo List</Navbar.Brand>
+          <Navbar.Brand href="#task">
+            <h4>Todo List</h4>
+          </Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Task</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#dashboard">Dashboard</Nav.Link>
+            <Nav.Link href="#task">Task</Nav.Link>
             <Nav.Link href="#pricing">Profile</Nav.Link>
           </Nav>
         </Container>

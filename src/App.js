@@ -5,17 +5,42 @@ import TodoTable from "./components/TodoTable";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [currentTodo, setCurrentTodo] = useState(null);
 
-  const handleAddTodo = (todo) => {
-    //console.log(todo);
-    setTodos((todos) => [...todos, todo]);
+  const handleSave = (todo) => {
+    const exists = todos.find((t) => t.id === todo.id); // checking if todo.id exists
+
+    if (exists) {
+      setTodos(todos.map((t) => (t.id === todo.id ? { ...t, ...todo } : t)));
+      console.log(`Updated task: ${todo.id}`);
+    } else {
+      setTodos((todos) => [...todos, todo]);
+      console.log(`Created new task: ${todo.id}`);
+    }
+    // setShowModal(false);
+    setCurrentTodo(null);
   };
+
+  const handleUpdate = (todo) => {
+    console.log(`Updated ID no. ` + todo.id);
+    setCurrentTodo(todo);
+  };
+
+  const handleDelete = (id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    console.log(`Deleted ID No. ` + id);
+  };
+
   return (
     <>
       <div className="container">
         <TodoNav />
-        <TodoModal onCreateTodo={handleAddTodo} />
-        <TodoTable todoItems={todos} />
+        <TodoModal onSave={handleSave} todo={currentTodo} />
+        <TodoTable
+          todos={todos}
+          onUpdate={handleUpdate}
+          onDelete={handleDelete}
+        />
       </div>
     </>
   );

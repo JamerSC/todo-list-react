@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import CustomButton from "./CustomButton";
 import { FaPlus } from "react-icons/fa";
 
-const TodoModal = ({ onCreateTodo }) => {
+const TodoModal = ({ todo, onSave }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    if (todo) {
+      setTitle(todo.title || "");
+      setDescription(todo.description || "");
+      setStatus(todo.status || "");
+      setShow(true); // Automatically open modal when editing
+    }
+  }, [todo]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,18 +30,18 @@ const TodoModal = ({ onCreateTodo }) => {
       return;
     }
 
-    // const id = crypto.randomUUID(); // generate a unique ID
+    // const id = crypto.randomUUID();
     // const id = crypto?.randomUUID?.() || Date.now().toString();
-    const id = Math.floor(Math.random() * 50) + 1; // Random no. 1-50
-    const newTodo = {
-      id,
-      title: title,
-      description: description,
-      status: status,
+    // const id = Math.floor(Math.random() * 50) + 1;
+    const updateTodo = {
+      id: todo?.id || Math.floor(Math.random() * 50) + 1,
+      title,
+      description,
+      status,
     };
 
-    console.log(newTodo);
-    onCreateTodo(newTodo);
+    console.log(updateTodo);
+    onSave(updateTodo); // Save Created Todo
 
     setTitle("");
     setDescription("");
@@ -60,7 +69,7 @@ const TodoModal = ({ onCreateTodo }) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>To Do</Modal.Title>
+          <Modal.Title>Create Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form id="todoForm" onSubmit={handleSubmit}>
@@ -68,7 +77,7 @@ const TodoModal = ({ onCreateTodo }) => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter your todo title..."
+                placeholder="Enter your task title..."
                 autoFocus
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -79,7 +88,7 @@ const TodoModal = ({ onCreateTodo }) => {
               <Form.Control
                 as="textarea"
                 rows="3"
-                placeholder="Enter your todo description..."
+                placeholder="Enter your task description..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -89,7 +98,7 @@ const TodoModal = ({ onCreateTodo }) => {
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option>Select todo status...</option>
+                <option>Select task status...</option>
                 <option value="Pending">Pending</option>
                 <option value="In-progress">In-progress</option>
                 <option value="Completed">Completed</option>
