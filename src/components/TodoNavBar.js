@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 const TodoNav = () => {
   return (
     <>
-      <Navbar bg="light">
+      <Navbar bg="light" className="mb-3">
         <Container>
           <Navbar.Brand href="#home">Todo List</Navbar.Brand>
           <Nav className="me-auto">

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import CustomButton from "./CustomButton";
+import { FaPlus } from "react-icons/fa";
 
 const TodoModal = ({ onCreateTodo }) => {
   const [show, setShow] = useState(false);
@@ -40,11 +42,17 @@ const TodoModal = ({ onCreateTodo }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-end mt-3">
-        <Button variant="primary" onClick={handleShow}>
-          Add Todo
-        </Button>
-      </div>
+      <CustomButton
+        variant="primary"
+        size="md"
+        onClick={handleShow}
+        title="Create Todo"
+        icon={FaPlus}
+        iconPosition="left"
+      >
+        Todo
+      </CustomButton>
+
       <Modal
         show={show}
         onHide={handleClose}

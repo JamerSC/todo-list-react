@@ -7,12 +7,17 @@ React To-Do List App with add, update, and delete functionality, while storing t
 April 8, 2025 - Setup v2
 Install Bootstrap Vanilla
 
-Apri 9, 2025 - Setup new project v3
+Apri 9, 2025 (Day of Valor)
+
+- Setup new project v3 (Revamp)
 
 1. Project Setup CRA:
    ✅ npx create-react-app todo-list
 2. Install React-Bootstrap: https://react-bootstrap.netlify.app/docs/getting-started/introduction
    ✅ npm install react-bootstrap bootstrap
-3. Set up Git & Github
-
+3. Set up Repository
+   ✅ Git & Github
 4. Can display & add sample todo data.
+5. Install React-Icpns: https://react-icons.github.io/react-icons
+   ✅ npm install react-icons
+6. Created Custom & Reusable button & Icon Button
