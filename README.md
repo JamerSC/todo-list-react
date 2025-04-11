@@ -21,3 +21,9 @@ Apri 9, 2025 (Day of Valor)
 5. Install React-Icpns: https://react-icons.github.io/react-icons
    ✅ npm install react-icons
 6. Created Custom & Reusable button & Icon Button
+
+April 10, 2025
+
+1. Array of Button
+   // const buttons = ["Todo", "To Delete", " To Update"];
+   {/\* <div>{buttons.map((button) => (<Button> {button} </Button> ))}</div> \*/}

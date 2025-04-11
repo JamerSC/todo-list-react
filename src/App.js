@@ -2,9 +2,11 @@ import { useState } from "react";
 import TodoNav from "./components/TodoNavBar";
 import TodoModal from "./components/TodoFormModal";
 import TodoTable from "./components/TodoTable";
+import { todoItems } from "./components/Data";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([todoItems]); // sample data
+  // const [todos, setTodos] = useState([]); // empty data []
   const [currentTodo, setCurrentTodo] = useState(null);
 
   const handleSave = (todo) => {
@@ -35,7 +37,11 @@ function App() {
     <>
       <div className="container">
         <TodoNav />
-        <TodoModal onSave={handleSave} todo={currentTodo} />
+        <TodoModal
+          onSave={handleSave}
+          onClose={() => setCurrentTodo(null)}
+          todo={currentTodo}
+        />
         <TodoTable
           todos={todos}
           onUpdate={handleUpdate}

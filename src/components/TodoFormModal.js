@@ -5,13 +5,21 @@ import Form from "react-bootstrap/Form";
 import CustomButton from "./CustomButton";
 import { FaPlus } from "react-icons/fa";
 
-const TodoModal = ({ todo, onSave }) => {
+const TodoModal = ({ todo, onSave, onClose }) => {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
+
+  const handleClose = () => {
+    setShow(false);
+    setTitle("");
+    setDescription("");
+    setStatus("");
+    if (onClose) onClose(); // null the current todo
+  };
+
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (todo) {
@@ -59,7 +67,7 @@ const TodoModal = ({ todo, onSave }) => {
         icon={FaPlus}
         iconPosition="left"
       >
-        Todo
+        Add New Todo
       </CustomButton>
 
       <Modal
@@ -69,7 +77,7 @@ const TodoModal = ({ todo, onSave }) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Create Task</Modal.Title>
+          <Modal.Title>{todo ? "Edit Task" : "Add Task"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form id="todoForm" onSubmit={handleSubmit}>
@@ -111,7 +119,7 @@ const TodoModal = ({ todo, onSave }) => {
             Close
           </Button>
           <Button type="submit" form="todoForm" variant="primary">
-            Save
+            {todo ? "Update" : "Save"}
           </Button>
         </Modal.Footer>
       </Modal>
