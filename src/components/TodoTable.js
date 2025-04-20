@@ -4,7 +4,7 @@ import IconButton from "./IconButton";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const TodoTable = ({ todos, onUpdate, onDelete }) => {
-  const todoItems = todos;
+  //const todoItems = todos;
   return (
     <Table striped hover className="align-middle mt-3">
       {/* Add class for vertical alignment */}
@@ -25,7 +25,7 @@ const TodoTable = ({ todos, onUpdate, onDelete }) => {
             </td>
           </tr>
         ) : (
-          todoItems.map((todo) => (
+          todos.map((todo) => (
             <tr key={todo.id}>
               {/* <td>{todo.id}</td> */}
               <td className="align-middle">{todo.title}</td>

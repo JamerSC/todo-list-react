@@ -1,4 +1,4 @@
-export const todoItems = [
+export const task = [
   {
     id: 1,
     title: "Exercise",
