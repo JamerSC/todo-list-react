@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoNav from "./components/TodoNavBar";
 import TodoModal from "./components/TodoFormModal";
 import TodoTable from "./components/TodoTable";
@@ -6,10 +6,25 @@ import { task } from "./components/data";
 import SearchBar from "./components/SearchBar";
 
 function App() {
-  const [todos, setTodos] = useState(task); // sample data
-  // const [todos, setTodos] = useState([]); // empty data []
+  //const [todos, setTodos] = useState(task); // sample data
+  const [todos, setTodos] = useState([]); // empty data []
   const [currentTodo, setCurrentTodo] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // Declare a state variable...
+
+  // Fetch data from Spring Boot
+  useEffect(() => {
+    fetch("http://localhost:8080/api/todos")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch todos");
+        return response.json();
+      })
+      .then((data) => {
+        setTodos(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching todos:", error);
+      });
+  }, []);
 
   const handleSave = (todo) => {
     const exists = todos.find((t) => t.id === todo.id); // checking if todo.id exists

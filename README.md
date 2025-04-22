@@ -24,6 +24,15 @@ Apri 9, 2025 (Day of Valor)
 
 April 10, 2025
 
-1. Array of Button
-   // const buttons = ["Todo", "To Delete", " To Update"];
-   {/\* <div>{buttons.map((button) => (<Button> {button} </Button> ))}</div> \*/}
+- Array of Button
+  // const buttons = ["Todo", "To Delete", " To Update"];
+  {/\* <div>{buttons.map((button) => (<Button> {button} </Button> ))}</div> \*/}
+
+April 20, 2025
+
+- Search Field & Function
+
+April 22, 2025
+
+- Set up Fetch in React to Call the API
+  ![alt text](image.png)
