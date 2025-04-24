@@ -38,20 +38,19 @@ const TodoModal = ({ todo, onSave, onClose }) => {
       return;
     }
 
-    const newTodo = {
+    // const id = crypto.randomUUID();
+    // const id = crypto?.randomUUID?.() || Date.now().toString();
+    // const id = Math.floor(Math.random() * 50) + 1;
+    const updateTodo = {
+      id: todo?.id || Math.floor(Math.random() * 50) + 1,
       title,
       description,
       status,
     };
 
-    const updatedTodo = {
-      id: todo?.id, // optional chaining to avoid error when todo is null
-      title,
-      description,
-      status,
-    };
+    console.log(updateTodo);
+    onSave(updateTodo); // Save Created Todo
 
-    onSave(todo?.id ? updatedTodo : newTodo); // decide whether it's an update or a create
     setTitle("");
     setDescription("");
     setStatus("");

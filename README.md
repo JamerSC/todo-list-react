@@ -36,3 +36,8 @@ April 22, 2025
 
 - Set up Fetch in React to Call the API
   ![alt text](image.png)
+
+April 24, 2025
+
+- Added Services & api.js for Fetch API
+- Prepared crud functions

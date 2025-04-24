@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import TodoNav from "./components/TodoNavBar";
 import TodoModal from "./components/TodoFormModal";
 import TodoTable from "./components/TodoTable";
+//import { task } from "./components/data";
 import SearchBar from "./components/SearchBar";
-import { getTodos, createTodo, updateTodo, deleteTodo } from "./services/api";
+import { getTodos } from "./services/api";
 
 function App() {
   //const [todos, setTodos] = useState(task); // sample data
@@ -11,22 +12,32 @@ function App() {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // Declare a state variable...
 
-  // FETCH API - GET ALL
+  // Fetch data from Spring Boot
   useEffect(() => {
-    getTodos().then(setTodos).catch(console.error);
+    fetch("http://localhost:8080/api/todos")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch todos");
+        return response.json();
+      })
+      .then((data) => {
+        setTodos(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching todos:", error);
+      });
   }, []);
 
-  // FETCH API - CREATE & UPDATE
-  const handleSave = async (todo) => {
-    let updated;
-    //const exists = todos.find((t) => t.id === todo.id);
-    if (todo.id) {
-      updated = await updateTodo(todo);
-      setTodos((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+  const handleSave = (todo) => {
+    const exists = todos.find((t) => t.id === todo.id); // checking if todo.id exists
+
+    if (exists) {
+      setTodos(todos.map((t) => (t.id === todo.id ? { ...t, ...todo } : t)));
+      console.log(`Updated task: ${todo.id}`);
     } else {
-      updated = await createTodo(todo);
-      setTodos((prev) => [...prev, updated]);
+      setTodos((todos) => [...todos, todo]);
+      console.log("Created new task:", todo);
     }
+    // setShowModal(false);
     setCurrentTodo(null);
   };
 
@@ -35,10 +46,9 @@ function App() {
     setCurrentTodo(todo);
   };
 
-  // FETCH API - DELETE
-  const handleDelete = async (id) => {
-    await deleteTodo(id);
-    setTodos((prev) => prev.filter((t) => t.id !== id));
+  const handleDelete = (id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    console.log(`Deleted ID No. ` + id);
   };
 
   const filteredTodos = todos.filter((todo) =>
