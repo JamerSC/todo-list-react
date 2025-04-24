@@ -47,7 +47,13 @@ const TodoTable = ({ todos, onUpdate, onDelete }) => {
                   color="red"
                   title="Delete"
                   onClick={() => {
-                    onDelete(todo.id); // Delete Todo
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this task?"
+                      )
+                    ) {
+                      onDelete(todo.id);
+                    } // Delete Todo
                   }}
                 />
               </td>
