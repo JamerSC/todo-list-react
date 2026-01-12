@@ -35,7 +35,7 @@ April 20, 2025
 April 22, 2025
 
 - Set up Fetch in React to Call the API
-  ![alt text](image.png)
+  ![alt text](/src/screenshots/image.png)
 
 April 24, 2025
 

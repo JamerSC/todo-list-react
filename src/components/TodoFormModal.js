@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import CustomButton from "./CustomButton";
+import CustomButton from "./Button";
 import { FaPlus } from "react-icons/fa";
 
 const TodoModal = ({ todo, onSave, onClose }) => {
