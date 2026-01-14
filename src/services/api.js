@@ -1,32 +1,19 @@
-const API_URL = "http://localhost:8080/api/todos";
+import api from "./axios";
 
-// get all todo list
-export const getTodos = async () => {
-  const res = await fetch(API_URL);
-  return res.json();
-};
-
-export const createTodo = async (todo) => {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(todo),
+export const getTodos = (params) => {
+  return api.get("/", {
+    params: {
+      page: params.page,
+      size: params.size,
+      search: params.search || undefined,
+      status: params.status || undefined,
+      dateFrom: params.dateFrom || undefined,
+      dateTo: params.dateTo || undefined,
+    },
   });
-  return res.json();
 };
 
-export const updateTodo = async (todo) => {
-  const res = await fetch(`${API_URL}/${todo.id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(todo),
-  });
-  return res.json();
-};
-
-export const deleteTodo = async (id) => {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
-  return res.text();
-};
+export const createTodo = (todo) => api.post("/", todo);
+export const getTodo = (id) => api.get(`/${id}`);
+export const updateTodo = (todo) => api.put(`/${todo.id}`, todo);
+export const deleteTodo = (id) => api.delete(`/${id}`);

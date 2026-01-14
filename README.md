@@ -41,3 +41,12 @@ April 24, 2025
 
 - Added Services & api.js for Fetch API
 - Prepared crud functions
+
+January 12, 2025
+
+- Code refactor & add select option reusable components
+
+January 14, 2025
+
+- npm install axios
+- Update api integration

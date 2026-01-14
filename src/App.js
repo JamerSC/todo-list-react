@@ -6,23 +6,28 @@ import SearchBar from "./components/SearchBar";
 import SelectOption from "./components/SelectOption";
 import useTodos from "./hooks/useTodos";
 import { statusOptions } from "./data/statusOptions";
+import TodoPagination from "./components/Pagination";
 
 // import { getTodos, createTodo, updateTodo, deleteTodo } from "./services/api";
 
 function App() {
   const {
-    // todos,
-    // setTodos,
+    todos,
     currentTodo,
     setCurrentTodo,
     searchTerm,
     setSearchTerm,
+    filterStatus,
+    setFilterStatus,
     handleSave,
     handleUpdate,
     handleDelete,
-    filteredTodos,
-    filterStatus,
-    setFilterStatus,
+
+    // pagination
+    page,
+    setPage,
+    totalPages,
+    // totalElements,
   } = useTodos();
 
   return (
@@ -53,9 +58,14 @@ function App() {
           </div>
         </div>
         <TodoTable
-          todos={filteredTodos}
+          todos={todos}
           onUpdate={handleUpdate}
           onDelete={handleDelete}
+        />
+        <TodoPagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
         />
       </div>
     </>

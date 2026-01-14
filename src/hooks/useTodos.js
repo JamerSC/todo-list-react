@@ -2,64 +2,76 @@ import { useState, useEffect } from "react";
 import { getTodos, createTodo, updateTodo, deleteTodo } from "../services/api";
 
 export default function useTodos() {
-  //const [todos, setTodos] = useState(task); // sample data
-  const [todos, setTodos] = useState([]); // empty data []
+  const [todos, setTodos] = useState([]);
   const [currentTodo, setCurrentTodo] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Declare a state variable...
+
+  const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
-  // FETCH API - GET ALL
-  useEffect(() => {
-    getTodos().then(setTodos).catch(console.error);
-  }, []);
+  // pagination state
+  const [page, setPage] = useState(0);
+  const [size] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
 
-  // FETCH API - CREATE & UPDATE
-  const handleSave = async (todo) => {
-    let updated;
-    //const exists = todos.find((t) => t.id === todo.id);
-    if (todo.id) {
-      updated = await updateTodo(todo);
-      setTodos((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
-    } else {
-      updated = await createTodo(todo);
-      setTodos((prev) => [...prev, updated]);
+  const fetchTodos = async () => {
+    try {
+      const res = await getTodos({
+        page,
+        size,
+        search: searchTerm,
+        status: filterStatus,
+      });
+
+      const { content, page: pageInfo } = res.data.data;
+
+      setTodos(content);
+      setTotalPages(pageInfo.totalPages);
+      setTotalElements(pageInfo.totalElements);
+    } catch (err) {
+      console.error(err);
     }
+  };
+
+  // refetch on change
+  useEffect(() => {
+    fetchTodos();
+  }, [page, searchTerm, filterStatus]);
+
+  const handleSave = async (todo) => {
+    if (todo.id) {
+      await updateTodo(todo);
+    } else {
+      await createTodo(todo);
+    }
+    fetchTodos();
     setCurrentTodo(null);
   };
 
   const handleUpdate = (todo) => {
-    console.log(`Updated ID no. ` + todo.id);
     setCurrentTodo(todo);
   };
 
-  // FETCH API - DELETE
   const handleDelete = async (id) => {
     await deleteTodo(id);
-    setTodos((prev) => prev.filter((t) => t.id !== id));
+    fetchTodos();
   };
-
-  const filteredTodos = todos.filter((todo) => {
-    const matchesSearch =
-      todo.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      todo.description?.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesStatus = !filterStatus || todo.status === filterStatus;
-
-    return matchesSearch && matchesStatus;
-  });
-
   return {
     todos,
-    setTodos,
     currentTodo,
     setCurrentTodo,
     searchTerm,
     setSearchTerm,
+    filterStatus,
+    setFilterStatus,
     handleSave,
     handleUpdate,
     handleDelete,
-    filteredTodos,
-    filterStatus,
-    setFilterStatus,
+
+    // pagination
+    page,
+    setPage,
+    totalPages,
+    totalElements,
   };
 }
