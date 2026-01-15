@@ -23,13 +23,16 @@ export default function useTodos() {
         status: filterStatus,
       });
 
-      const { content, page: pageInfo } = res.data.data;
+      // ✅ BEST PRACTICE: log once, immediately
+      console.log("GET /todos response :", res.data);
 
-      setTodos(content);
-      setTotalPages(pageInfo.totalPages);
-      setTotalElements(pageInfo.totalElements);
+      const pageData = res.data.data;
+
+      setTodos(pageData.content);
+      setTotalPages(pageData.totalPages);
+      setTotalElements(pageData.totalElements);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch todos:", err);
     }
   };
 
@@ -38,12 +41,15 @@ export default function useTodos() {
     fetchTodos();
   }, [page, searchTerm, filterStatus]);
 
+  // reset page on filter/search
+  useEffect(() => {
+    setPage(0);
+  }, [searchTerm, filterStatus]);
+
   const handleSave = async (todo) => {
-    if (todo.id) {
-      await updateTodo(todo);
-    } else {
-      await createTodo(todo);
-    }
+    if (todo.id) await updateTodo(todo);
+    else await createTodo(todo);
+
     fetchTodos();
     setCurrentTodo(null);
   };

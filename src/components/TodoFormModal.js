@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import CustomButton from "./Button";
 import { FaPlus } from "react-icons/fa";
+import { statusOptions } from "../data/statusOptions";
 
 const TodoModal = ({ todo, onSave, onClose }) => {
   const [show, setShow] = useState(false);
@@ -107,10 +108,15 @@ const TodoModal = ({ todo, onSave, onClose }) => {
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option>Select task status...</option>
+                {/* <option>Select task status...</option>
                 <option value="Pending">Pending</option>
                 <option value="In-progress">In-progress</option>
-                <option value="Completed">Completed</option>
+                <option value="Completed">Completed</option> */}
+                {statusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
           </Form>

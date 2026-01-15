@@ -1,8 +1,8 @@
 export const statusOptions = [
-  { label: "All", value: "" },
-  { label: "Pending", value: "PENDING" },
-  { label: "In Progress", value: "IN_PROGRESS" },
-  { label: "Completed", value: "COMPLETED" },
+  { label: "Select status", value: "" },
+  { label: "Pending", value: "Pending" },
+  { label: "In Progress", value: "In Progress" },
+  { label: "Completed", value: "Completed" },
 ];
 
 // 'COMPLETED', 'IN_PROGRESS', 'PENDING'
