@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import CustomButton from "./Button";
 import { FaPlus } from "react-icons/fa";
 import { statusOptions } from "../data/statusOptions";
+import { normalizeEnum } from "../utils/enumNormalizer";
 
 const TodoModal = ({ todo, onSave, onClose }) => {
   const [show, setShow] = useState(false);
@@ -22,12 +23,38 @@ const TodoModal = ({ todo, onSave, onClose }) => {
 
   const handleShow = () => setShow(true);
 
+  // useEffect(() => {
+  //   if (todo) {
+  //     console.log("Editing todo status:", todo.status);
+  //     console.log(
+  //       "Available options:",
+  //       statusOptions.map((o) => o.value),
+  //     );
+  //     setTitle(todo.title || "");
+  //     setDescription(todo.description || "");
+  //     setStatus(todo.status || "");
+  //     setShow(true); // Automatically open modal when editing
+  //   }
+  // }, [todo]);
+
   useEffect(() => {
     if (todo) {
-      setTitle(todo.title || "");
-      setDescription(todo.description || "");
-      setStatus(todo.status || "");
-      setShow(true); // Automatically open modal when editing
+      console.log("RAW backend status:", JSON.stringify(todo.status));
+      console.log(
+        "Available option values:",
+        statusOptions.map((o) => o.value),
+      );
+
+      const normalizedStatus = normalizeEnum(todo.status);
+      // const normalizedStatus =
+      //   typeof todo.status === "string"
+      //     ? todo.status.toUpperCase()
+      //     : todo.status?.name?.toUpperCase() || "";
+
+      setTitle(todo.title ?? "");
+      setDescription(todo.description ?? "");
+      setStatus(normalizedStatus);
+      setShow(true);
     }
   }, [todo]);
 
@@ -108,10 +135,6 @@ const TodoModal = ({ todo, onSave, onClose }) => {
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                {/* <option>Select task status...</option>
-                <option value="Pending">Pending</option>
-                <option value="In-progress">In-progress</option>
-                <option value="Completed">Completed</option> */}
                 {statusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}

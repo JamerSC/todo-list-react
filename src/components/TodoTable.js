@@ -49,7 +49,7 @@ const TodoTable = ({ todos, onUpdate, onDelete }) => {
                   onClick={() => {
                     if (
                       window.confirm(
-                        "Are you sure you want to delete this task?"
+                        "Are you sure you want to delete this task?",
                       )
                     ) {
                       onDelete(todo.id);
