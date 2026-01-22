@@ -7,4 +7,12 @@ const api = axios.create({
   },
 });
 
+// Axios – Best practice interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    return Promise.reject(error.response?.data || error);
+  },
+);
+
 export default api;

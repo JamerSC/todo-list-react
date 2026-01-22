@@ -7,35 +7,37 @@ import { FaPlus } from "react-icons/fa";
 import { statusOptions } from "../data/statusOptions";
 import { normalizeEnum } from "../utils/enumNormalizer";
 
-const TodoModal = ({ todo, onSave, onClose }) => {
+const TodoModal = ({ todo, onSave, onClose, apiError }) => {
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
+  // local error state
+  const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState("");
+
+  useEffect(() => {
+    if (apiError) {
+      setErrors(apiError.fieldErrors || {});
+      setFormError(apiError.message || "");
+    }
+  }, [apiError]);
+
+  const handleShow = () => {
+    setErrors({});
+    setFormError("");
+    setShow(true);
+  };
 
   const handleClose = () => {
     setShow(false);
+    setErrors({});
+    setFormError("");
     setTitle("");
     setDescription("");
     setStatus("");
-    if (onClose) onClose(); // null the current todo
+    onClose?.();
   };
-
-  const handleShow = () => setShow(true);
-
-  // useEffect(() => {
-  //   if (todo) {
-  //     console.log("Editing todo status:", todo.status);
-  //     console.log(
-  //       "Available options:",
-  //       statusOptions.map((o) => o.value),
-  //     );
-  //     setTitle(todo.title || "");
-  //     setDescription(todo.description || "");
-  //     setStatus(todo.status || "");
-  //     setShow(true); // Automatically open modal when editing
-  //   }
-  // }, [todo]);
 
   useEffect(() => {
     if (todo) {
@@ -46,10 +48,6 @@ const TodoModal = ({ todo, onSave, onClose }) => {
       );
 
       const normalizedStatus = normalizeEnum(todo.status);
-      // const normalizedStatus =
-      //   typeof todo.status === "string"
-      //     ? todo.status.toUpperCase()
-      //     : todo.status?.name?.toUpperCase() || "";
 
       setTitle(todo.title ?? "");
       setDescription(todo.description ?? "");
@@ -58,32 +56,21 @@ const TodoModal = ({ todo, onSave, onClose }) => {
     }
   }, [todo]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !description || !status) {
-      console.log("All fields are required!");
-      alert("All Fields are Required!");
-      return;
+
+    const payload = todo?.id
+      ? { id: todo.id, title, description, status }
+      : { title, description, status };
+
+    const success = await onSave(payload);
+
+    if (success) {
+      setShow(false);
+      setTitle("");
+      setDescription("");
+      setStatus("");
     }
-
-    const newTodo = {
-      title,
-      description,
-      status,
-    };
-
-    const updatedTodo = {
-      id: todo?.id, // optional chaining to avoid error when todo is null
-      title,
-      description,
-      status,
-    };
-
-    onSave(todo?.id ? updatedTodo : newTodo); // decide whether it's an update or a create
-    setTitle("");
-    setDescription("");
-    setStatus("");
-    setShow(false);
   };
 
   return (
@@ -117,8 +104,12 @@ const TodoModal = ({ todo, onSave, onClose }) => {
                 placeholder="Enter your task title..."
                 autoFocus
                 value={title}
+                isInvalid={!!errors.title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.title}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
@@ -127,20 +118,30 @@ const TodoModal = ({ todo, onSave, onClose }) => {
                 rows="3"
                 placeholder="Enter your task description..."
                 value={description}
+                isInvalid={!!errors.description}
                 onChange={(e) => setDescription(e.target.value)}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.description}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Select
                 value={status}
+                isInvalid={!!errors.status}
                 onChange={(e) => setStatus(e.target.value)}
               >
+                <option value="">-- Select status --</option>
+
                 {statusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errors.status}
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>

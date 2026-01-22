@@ -23,6 +23,9 @@ function App() {
     handleUpdate,
     handleDelete,
 
+    apiError,
+    setApiError,
+
     // pagination
     page,
     setPage,
@@ -39,6 +42,7 @@ function App() {
             onSave={handleSave}
             onClose={() => setCurrentTodo(null)}
             todo={currentTodo}
+            apiError={apiError}
           />
           <div className="ms-auto d-flex align-items-center gap-3 flex-wrap">
             <div style={{ minWidth: "180px" }}>

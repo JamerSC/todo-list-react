@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTodos, createTodo, updateTodo, deleteTodo } from "../services/api";
+import { mapFieldErrors } from "../utils/apiErrorMapper";
 
 export default function useTodos() {
   const [todos, setTodos] = useState([]);
@@ -13,6 +14,8 @@ export default function useTodos() {
   const [size] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
+
+  const [apiError, setApiError] = useState(null);
 
   const fetchTodos = async () => {
     try {
@@ -47,11 +50,22 @@ export default function useTodos() {
   }, [searchTerm, filterStatus]);
 
   const handleSave = async (todo) => {
-    if (todo.id) await updateTodo(todo);
-    else await createTodo(todo);
+    setApiError(null);
 
-    fetchTodos();
-    setCurrentTodo(null);
+    try {
+      if (todo.id) await updateTodo(todo);
+      else await createTodo(todo);
+
+      fetchTodos();
+      setCurrentTodo(null);
+      return true; // ✅ success
+    } catch (errorData) {
+      setApiError({
+        message: errorData.message || "Validation failed",
+        fieldErrors: mapFieldErrors(errorData),
+      });
+      return false; // ❌ validation error
+    }
   };
 
   const handleUpdate = (todo) => {
@@ -74,6 +88,8 @@ export default function useTodos() {
     handleUpdate,
     handleDelete,
 
+    apiError,
+    setApiError,
     // pagination
     page,
     setPage,
