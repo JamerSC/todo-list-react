@@ -24,7 +24,7 @@ function App() {
     handleDelete,
 
     apiError,
-    setApiError,
+    // setApiError,
 
     // pagination
     page,

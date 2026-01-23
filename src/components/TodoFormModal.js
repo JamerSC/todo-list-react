@@ -52,6 +52,8 @@ const TodoModal = ({ todo, onSave, onClose, apiError }) => {
       setTitle(todo.title ?? "");
       setDescription(todo.description ?? "");
       setStatus(normalizedStatus);
+      setErrors({}); // ✅ reset errors
+      setFormError(""); // ✅ reset form error
       setShow(true);
     }
   }, [todo]);
@@ -98,6 +100,11 @@ const TodoModal = ({ todo, onSave, onClose, apiError }) => {
         <Modal.Body>
           <Form id="todoForm" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
+              {/* {formError && (
+                <div className="alert alert-danger" role="alert">
+                  {formError}
+                </div>
+              )} */}
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"

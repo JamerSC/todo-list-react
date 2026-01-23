@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getTodos, createTodo, updateTodo, deleteTodo } from "../services/api";
 import { mapFieldErrors } from "../utils/apiErrorMapper";
 
@@ -17,7 +17,7 @@ export default function useTodos() {
 
   const [apiError, setApiError] = useState(null);
 
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       const res = await getTodos({
         page,
@@ -25,24 +25,19 @@ export default function useTodos() {
         search: searchTerm,
         status: filterStatus,
       });
-
-      // ✅ BEST PRACTICE: log once, immediately
-      console.log("GET /todos response :", res.data);
-
       const pageData = res.data.data;
-
       setTodos(pageData.content);
       setTotalPages(pageData.totalPages);
       setTotalElements(pageData.totalElements);
     } catch (err) {
       console.error("Failed to fetch todos:", err);
     }
-  };
+  }, [page, size, searchTerm, filterStatus]); // fetchTodos depends on these
 
-  // refetch on change
+  // Then your effect:
   useEffect(() => {
     fetchTodos();
-  }, [page, searchTerm, filterStatus]);
+  }, [fetchTodos]); // ✅ only depends on stable callback
 
   // reset page on filter/search
   useEffect(() => {
@@ -64,7 +59,7 @@ export default function useTodos() {
         message: errorData.message || "Validation failed",
         fieldErrors: mapFieldErrors(errorData),
       });
-      return false; // ❌ validation error
+      return false;
     }
   };
 
