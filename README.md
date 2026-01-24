@@ -42,11 +42,36 @@ April 24, 2025
 - Added Services & api.js for Fetch API
 - Prepared crud functions
 
-January 12, 2025
+### Learning react continuation
+
+January 12, 2026
 
 - Code refactor & add select option reusable components
 
-January 14, 2025
+January 14, 2026
 
 - npm install axios
 - Update api integration
+
+January 15, 2026
+
+- feature: todos api integration, code refactor, & fix
+
+January 17, 2026
+
+- Fixed edit form bug on fetching status
+- Implement util enum normalizer
+
+January 22, 2026
+
+- Implement form error messages
+
+January 23, 2026
+
+- update app.js, todo form, & hooks
+
+January 24, 2026
+
+- Implement react toastify & toast ids
+- npm install react-toastify
+- For toast notif of success message

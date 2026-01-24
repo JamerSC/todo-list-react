@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { getTodos, createTodo, updateTodo, deleteTodo } from "../services/api";
 import { mapFieldErrors } from "../utils/apiErrorMapper";
+import { toast } from "react-toastify";
+import { TODO_TOAST_IDS } from "../utils/todoToastIds";
 
 export default function useTodos() {
   const [todos, setTodos] = useState([]);
@@ -30,7 +32,7 @@ export default function useTodos() {
       setTotalPages(pageData.totalPages);
       setTotalElements(pageData.totalElements);
     } catch (err) {
-      console.error("Failed to fetch todos:", err);
+      toast.error("Failed to fetch todos:", err);
     }
   }, [page, size, searchTerm, filterStatus]); // fetchTodos depends on these
 
@@ -48,16 +50,30 @@ export default function useTodos() {
     setApiError(null);
 
     try {
-      if (todo.id) await updateTodo(todo);
-      else await createTodo(todo);
+      let res;
+      if (todo.id) {
+        res = await updateTodo(todo);
+        // toast notif
+        toast.success(res.data?.message || "Todo updated successfully!", {
+          todoToastIds: TODO_TOAST_IDS.TODO_UPDATE,
+        });
+      } else {
+        res = await createTodo(todo);
+        toast.success(res.data?.message || "Todo created successfully!", {
+          todoToastIds: TODO_TOAST_IDS.TODO_CREATE,
+        });
+      }
 
       fetchTodos();
       setCurrentTodo(null);
       return true; // ✅ success
-    } catch (errorData) {
+    } catch (e) {
       setApiError({
-        message: errorData.message || "Validation failed",
-        fieldErrors: mapFieldErrors(errorData),
+        message: e.message || "Validation failed",
+        fieldErrors: mapFieldErrors(e),
+      });
+      toast.error(e.message || "Something went wrong!", {
+        todoToastIds: TODO_TOAST_IDS.TODO_ERROR,
       });
       return false;
     }
@@ -68,8 +84,17 @@ export default function useTodos() {
   };
 
   const handleDelete = async (id) => {
-    await deleteTodo(id);
-    fetchTodos();
+    try {
+      const res = await deleteTodo(id);
+      toast.success(res.data?.message, {
+        todoToastIds: TODO_TOAST_IDS.TODO_DELETE,
+      });
+      fetchTodos();
+    } catch (error) {
+      toast.error("Failed to delete todo!", {
+        todoToastIds: TODO_TOAST_IDS.TODO_ERROR,
+      });
+    }
   };
   return {
     todos,

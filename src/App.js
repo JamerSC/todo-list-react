@@ -5,8 +5,10 @@ import TodoTable from "./components/TodoTable";
 import SearchBar from "./components/SearchBar";
 import SelectOption from "./components/SelectOption";
 import useTodos from "./hooks/useTodos";
-import { statusOptions } from "./data/statusOptions";
+import { statusOptions } from "./utils/statusOptions";
 import TodoPagination from "./components/Pagination";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // import { getTodos, createTodo, updateTodo, deleteTodo } from "./services/api";
 
@@ -35,6 +37,14 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
       <div className="container mt-4">
         <TodoNav />
         <div className="d-flex justify-content-between align-items-center my-3 flex-wrap gap-3">

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import CustomButton from "./Button";
 import { FaPlus } from "react-icons/fa";
-import { statusOptions } from "../data/statusOptions";
+import { statusOptions } from "../utils/statusOptions";
 import { normalizeEnum } from "../utils/enumNormalizer";
 
 const TodoModal = ({ todo, onSave, onClose, apiError }) => {
