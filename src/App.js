@@ -1,6 +1,6 @@
 // import { useEffect, useState } from "react";
 import TodoNav from "./components/TodoNavBar";
-import TodoModal from "./components/TodoFormModal";
+import TodoFormModal from "./components/TodoFormModal";
 import TodoTable from "./components/TodoTable";
 import SearchBar from "./components/SearchBar";
 import SelectOption from "./components/SelectOption";
@@ -48,7 +48,7 @@ function App() {
       <div className="container mt-4">
         <TodoNav />
         <div className="d-flex justify-content-between align-items-center my-3 flex-wrap gap-3">
-          <TodoModal
+          <TodoFormModal
             onSave={handleSave}
             onClose={() => setCurrentTodo(null)}
             todo={currentTodo}

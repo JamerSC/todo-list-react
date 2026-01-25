@@ -38,7 +38,8 @@ const TodoTable = ({ todos, onUpdate, onDelete }) => {
                   color="green"
                   title="Update"
                   onClick={() => {
-                    onUpdate(todo); // Update Todo
+                    // onUpdate(todo); // Update Todo
+                    onUpdate(todo.id); // 👈 pass ID only
                   }}
                   // Add some spacing between buttons
                 />

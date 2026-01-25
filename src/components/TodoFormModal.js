@@ -7,7 +7,7 @@ import { FaPlus } from "react-icons/fa";
 import { statusOptions } from "../utils/statusOptions";
 import { normalizeEnum } from "../utils/enumNormalizer";
 
-const TodoModal = ({ todo, onSave, onClose, apiError }) => {
+const TodoFormModal = ({ todo, onSave, onClose, apiError }) => {
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -156,7 +156,11 @@ const TodoModal = ({ todo, onSave, onClose, apiError }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button type="submit" form="todoForm" variant="primary">
+          <Button
+            type="submit"
+            form="todoForm"
+            variant={todo ? "success" : "primary"}
+          >
             {todo ? "Update" : "Save"}
           </Button>
         </Modal.Footer>
@@ -165,4 +169,4 @@ const TodoModal = ({ todo, onSave, onClose, apiError }) => {
   );
 };
 
-export default TodoModal;
+export default TodoFormModal;

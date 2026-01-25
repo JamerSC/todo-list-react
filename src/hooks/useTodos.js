@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { getTodos, createTodo, updateTodo, deleteTodo } from "../services/api";
+import {
+  getTodos,
+  createTodo,
+  getTodo,
+  updateTodo,
+  deleteTodo,
+} from "../services/api";
 import { mapFieldErrors } from "../utils/apiErrorMapper";
 import { toast } from "react-toastify";
 import { TODO_TOAST_IDS } from "../utils/todoToastIds";
@@ -79,8 +85,19 @@ export default function useTodos() {
     }
   };
 
-  const handleUpdate = (todo) => {
-    setCurrentTodo(todo);
+  // const handleUpdate = (todo) => {
+  //   setCurrentTodo(todo);
+  // };
+
+  const handleUpdate = async (id) => {
+    try {
+      const res = await getTodo(id);
+      setCurrentTodo(res.data.data);
+    } catch (error) {
+      toast.error("Failed to load todo details", {
+        toastId: TODO_TOAST_IDS.TODO_ERROR,
+      });
+    }
   };
 
   const handleDelete = async (id) => {
