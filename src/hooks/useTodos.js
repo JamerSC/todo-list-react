@@ -48,9 +48,19 @@ export default function useTodos() {
   }, [fetchTodos]); // ✅ only depends on stable callback
 
   // reset page on filter/search
-  useEffect(() => {
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [searchTerm, filterStatus]);
+
+  const onSearchChange = (value) => {
+    setSearchTerm(value);
     setPage(0);
-  }, [searchTerm, filterStatus]);
+  };
+
+  const onStatusChange = (value) => {
+    setFilterStatus(value);
+    setPage(0);
+  };
 
   const handleSave = async (todo) => {
     setApiError(null);
@@ -127,10 +137,13 @@ export default function useTodos() {
 
     apiError,
     setApiError,
+
     // pagination
     page,
     setPage,
     totalPages,
     totalElements,
+    onSearchChange,
+    onStatusChange,
   };
 }

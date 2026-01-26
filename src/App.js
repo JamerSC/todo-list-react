@@ -33,6 +33,8 @@ function App() {
     setPage,
     totalPages,
     // totalElements,
+    onSearchChange,
+    onStatusChange,
   } = useTodos();
 
   return (
@@ -59,14 +61,16 @@ function App() {
               <SelectOption
                 value={filterStatus}
                 options={statusOptions}
-                onChange={setFilterStatus}
+                onChange={onStatusChange}
+                // onChange={setFilterStatus}
               />
             </div>
 
             <div style={{ minWidth: "250px" }}>
               <SearchBar
                 searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
+                // setSearchTerm={setSearchTerm}
+                setSearchTerm={onSearchChange}
               />
             </div>
           </div>

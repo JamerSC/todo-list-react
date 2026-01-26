@@ -62,8 +62,17 @@ const TodoFormModal = ({ todo, onSave, onClose, apiError }) => {
     e.preventDefault();
 
     const payload = todo?.id
-      ? { id: todo.id, title, description, status }
-      : { title, description, status };
+      ? {
+          id: todo.id,
+          title: title.trim(),
+          description: description.trim(),
+          status,
+        }
+      : {
+          title: title.trim(),
+          description: description.trim(),
+          status,
+        };
 
     const success = await onSave(payload);
 

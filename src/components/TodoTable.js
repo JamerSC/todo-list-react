@@ -11,6 +11,7 @@ const TodoTable = ({ todos, onUpdate, onDelete }) => {
       <thead>
         <tr>
           {/* <th>#</th> */}
+          <th>Date</th>
           <th>Title</th>
           <th>Description</th>
           <th>Status</th>
@@ -27,7 +28,10 @@ const TodoTable = ({ todos, onUpdate, onDelete }) => {
         ) : (
           todos.map((todo) => (
             <tr key={todo.id}>
-              {/* <td>{todo.id}</td> */}
+              {/* <td className="align-middle">{todo.id}</td> */}
+              <td className="align-middle">
+                {new Date(todo.createdAt).toLocaleDateString()}
+              </td>
               <td className="align-middle">{todo.title}</td>
               <td className="align-middle">{todo.description}</td>
               <td className="align-middle">{todo.status}</td>

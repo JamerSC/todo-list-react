@@ -16,7 +16,7 @@ const TodoPagination = ({ page, totalPages, onPageChange }) => {
           active={i === page}
           onClick={() => onPageChange(i)}
         >
-          {i + 1}
+          Page {page + 1}
         </Pagination.Item>
       ))}
 
